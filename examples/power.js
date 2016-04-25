@@ -3,7 +3,20 @@
 const MarantzController = require('../lib/marantz-ip-control')
 
 var controller = new MarantzController({
-  host: "10.1.1.165"
+  // host: "10.1.1.165"
+  host: "127.0.0.1"
+})
+
+controller.on('update', (status) => {
+  console.log(status)
+})
+
+controller.on('error', (err) => {
+  console.error(err)
+})
+
+controller.on('close', (err) => {
+  console.error("Closed!")
 })
 
 controller.connect().then( (socket) => {
