@@ -22,15 +22,16 @@ controller.on('close', (err) => {
 controller.connect().then( (socket) => {
   console.log("Connected impl")
 
-  // controller.disconnect()
-  // socket.end()
-
-  // controller.requestBasics()
-
-  controller.getPower( (power) => {
+  controller.request('power', (power) => {
     console.log("CALB: Power is O" + (power ? "N" : "FF") )
   }).then( (power) => {
     console.log("PROM: Power is O" + (power ? "N" : "FF") )
   })
+
+  setTimeout(function(){
+
+    controller.act('masterVolume', 24)
+
+  }, 1000)
 
 })
