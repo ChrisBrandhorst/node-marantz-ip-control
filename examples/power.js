@@ -29,9 +29,7 @@ controller.connect().then( (socket) => {
   })
 
   setTimeout(function(){
-
-    controller.act('masterVolume', 24)
-
-  }, 1000)
+    controller.act('volume.master', (new Date()).getSeconds())
+  }, 2000)
 
 })
