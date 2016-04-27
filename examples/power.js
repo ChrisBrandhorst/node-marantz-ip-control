@@ -4,7 +4,6 @@ const MarantzController = require('../lib/marantz-ip-control')
 
 var controller = new MarantzController({
   host: "10.1.1.165"
-  // host: "127.0.0.1"
 })
 
 controller.on('update', (status) => {
@@ -28,8 +27,22 @@ controller.connect().then( (socket) => {
     console.log("PROM: Power is O" + (power ? "N" : "FF") )
   })
 
-  setTimeout(function(){
-    controller.act('volume.master', (new Date()).getSeconds())
-  }, 2000)
-
 })
+
+
+
+var stdin = process.stdin.setEncoding('utf8')
+stdin
+  .on('readable', function () {
+    var chunk = stdin.read()
+    if (chunk === null) return
+
+    var cmd   = chunk.toString().replace(/[\n\r]*$/, ''),
+        parts = cmd.split(" ")
+
+    controller.act(parts[0], parts[1])
+  })
+
+  .on('end', function () {
+    log.info('Stdin closed..');
+  });
