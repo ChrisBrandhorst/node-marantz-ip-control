@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 
 const MarantzController = require('../lib/marantz-ip-control')
 
@@ -16,6 +16,14 @@ controller.on('error', (err) => {
 
 controller.on('close', (err) => {
   console.error("Closed!")
+})
+
+controller.on('read', (response) => {
+  console.log("--> " + response)
+})
+
+controller.on('write', (command) => {
+  console.log(command + " -->")
 })
 
 controller.connect().then( (socket) => {
@@ -40,7 +48,13 @@ stdin
     var cmd   = chunk.toString().replace(/[\n\r]*$/, ''),
         parts = cmd.split(" ")
 
-    controller.act(parts[0], parts[1])
+    // try {
+      // controller.act(parts[0], parts[1])
+      controller.raw(cmd)
+    // }
+    // catch(e) {
+    //   console.log("Unknown command: " + cmd)
+    // }
   })
 
   .on('end', function () {
