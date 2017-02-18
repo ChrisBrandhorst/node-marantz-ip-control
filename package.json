@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/ChrisBrandhorst/node-marantz-ip-control/issues"
   },
-  "homepage": "https://github.com/ChrisBrandhorst/node-marantz-ip-control#readme"
+  "homepage": "https://github.com/ChrisBrandhorst/node-marantz-ip-control#readme",
+  "dependencies": {
+    "debounce": ">=1.0.0"
+  }
 }

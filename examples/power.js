@@ -3,7 +3,8 @@
 const MarantzController = require('../lib/marantz-ip-control')
 
 var controller = new MarantzController({
-  host: "10.1.1.165"
+  // host: "marantz"
+  host: "10.1.1.160"
 })
 
 controller.on('update', (status) => {
@@ -11,11 +12,15 @@ controller.on('update', (status) => {
 })
 
 controller.on('error', (err) => {
-  console.error(err)
+
 })
 
-controller.on('close', (err) => {
-  console.error("Closed!")
+controller.on('timeout', () => {
+
+})
+
+controller.on('close', (had_error) => {
+
 })
 
 controller.on('read', (response) => {
@@ -26,16 +31,30 @@ controller.on('write', (command) => {
   console.log(command + " -->")
 })
 
-controller.connect().then( (socket) => {
-  console.log("Connected impl")
 
-  controller.request('power', (power) => {
-    console.log("CALB: Power is O" + (power ? "N" : "FF") )
-  }).then( (power) => {
-    console.log("PROM: Power is O" + (power ? "N" : "FF") )
+// controller.connect().then( (socket) => {
+
+//   controller.request('power', (power) => {
+//     console.log("CALB: Power is O" + (power ? "N" : "FF") )
+//   }).then( (power) => {
+//     console.log("PROM: Power is O" + (power ? "N" : "FF") )
+//   })
+
+// })
+
+
+controller.connect()
+  .then( () => {
+    console.log('THEN')
+  })
+  .catch( (err) => {
+    console.log(err)
   })
 
-})
+
+
+
+
 
 
 
@@ -49,8 +68,8 @@ stdin
         parts = cmd.split(" ")
 
     // try {
-      // controller.act(parts[0], parts[1])
-      controller.raw(cmd)
+      controller.act(parts[0], parts[1])
+      // controller.raw(cmd)
     // }
     // catch(e) {
     //   console.log("Unknown command: " + cmd)
